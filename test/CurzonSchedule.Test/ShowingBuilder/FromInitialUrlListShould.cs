@@ -107,6 +107,38 @@ namespace CurzonSchedule.Test.ShowingBuilder
             Assert.True(result.Any(f => f.What.Slug == "another-new-film"));
         }
 
+        [Fact]
+        public void TwoCinemasHavingSameFilm_HasSameFilmObjectInShowing()
+        {
+            var input = new List<string>
+            {
+                "cinema/123/film/new-film",
+                "cinema/456/film/new-film",
+            };
+            var sut = new sut.ShowingBuilder();
+
+            var result = sut.FromInitialUrlList(input);
+
+            Assert.True(result.ElementAt(0).What == result.ElementAt(1).What);
+            Assert.False(result.ElementAt(0).At == result.ElementAt(1).At);
+        }
+
+        [Fact]
+        public void OneCinemasHavingTwoFilms_HasSameCinemaObjectInShowing()
+        {
+            var input = new List<string>
+            {
+                "cinema/123/film/new-film",
+                "cinema/123/film/another-new-film",
+            };
+            var sut = new sut.ShowingBuilder();
+
+            var result = sut.FromInitialUrlList(input);
+
+            Assert.True(result.ElementAt(0).At == result.ElementAt(1).At);
+            Assert.False(result.ElementAt(0).What == result.ElementAt(1).What);
+        }
+
 
     }
 }
