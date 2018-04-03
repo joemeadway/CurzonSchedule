@@ -139,6 +139,26 @@ namespace CurzonSchedule.Test.ShowingBuilder
             Assert.False(result.ElementAt(0).What == result.ElementAt(1).What);
         }
 
+        [Fact]
+        public void TwoCinemasHavingTwoFilms_ReturnsFourShowingsTwoFilmsTwoCinemas()
+        {
+            var input = new List<string>
+            {
+                "cinema/123/film/new-film",
+                "cinema/123/film/another-new-film",
+                "cinema/456/film/new-film",
+                "cinema/456/film/another-new-film",
+            };
+            var sut = new sut.ShowingBuilder();
+
+            var result = sut.FromInitialUrlList(input);
+
+            Assert.Equal(4, result.Count());
+            Assert.Equal(2, result.Where(c => c.At.Number == "123").Count());
+            Assert.Equal(2, result.Where(c => c.At.Number == "456").Count());
+            Assert.Equal(2, result.Where(c => c.What.Slug == "new-film").Count());
+            Assert.Equal(2, result.Where(c => c.What.Slug == "another-new-film").Count());
+        }
 
     }
 }
