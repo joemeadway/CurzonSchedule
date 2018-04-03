@@ -8,7 +8,7 @@
     5. If film title is new, create; else assign existing
     
 - For each showing object, navigate to  
-    https://curzoncinemas.com/[cinema ID]/237/film-info/[film title]
+	https://curzoncinemas.com/cinema/[ID]/film-info/[film-slug]
 
 - For each page, for each date and time, create showing
 

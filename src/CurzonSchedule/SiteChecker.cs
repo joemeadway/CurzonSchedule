@@ -11,18 +11,22 @@ namespace CurzonSchedule{
 
         public IEnumerable<Showing> GetShowings()
         {
+            var toReturn = new List<Showing>();
             var initialLinks = GetInitialLinks();
 
             var showBuidler = new ShowingBuilder();
             var initialShowings = showBuidler.FromInitialUrlList(initialLinks);
             
+            foreach (var showing in initialShowings)
+            {
+                var cinemaFilmLinks = GetCinemasLinks(showing.At.Number, showing.What.Slug);
+                
+                //Send film links to showing builder, return times
+                //toReturn.AddRange(showBuidler.From
+                
+            }
 
             return new List<Showing>();
-        }
-
-        private IEnumerable<Showing> GetInitialShowings(IEnumerable<string> initialLinks)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<string> GetInitialLinks()
@@ -30,7 +34,6 @@ namespace CurzonSchedule{
 
             StringBuilder builder = new StringBuilder();
 
-            //var site = @"https://curzoncinemas.com/bloomsbury/this-week";
             var site = @"https://curzoncinemas.com/this-week";
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(site);
@@ -43,44 +46,15 @@ namespace CurzonSchedule{
                 .Where(l => l.Contains("film-info") && l.Contains("cinema") )
                 .Select(l => l.Substring(l.LastIndexOf("/") + 1, l.Length - (l.LastIndexOf("/") + 1)))
                 .Distinct().ToList();
+        }
 
-
-            // var showings = filmLinks.Select(l => new Showing{
-            //     At = new Cinema{
-            //         Number = 123
-            //     },
-            //     What = new Film{
-            //         Name = "Film Title"
-            //     }
-            // }).ToList();
+        public IEnumerable<string> GetCinemasLinks(string cinema, string filmSlug)
+        {
+            List<string> toReturn = new List<string>();
 
 
 
-            var filmRoot = @"https://curzoncinemas.com/bloomsbury/film-info/";
-
-            var filmAndTimes = new Dictionary<string, List<string>>();
-
-            // foreach (var link in filmLinks)
-            // {
-            //     var toCheck = filmRoot + link;
-            //     var checkingDoc = web.Load(site);
-
-            //     var timeSections = checkingDoc.DocumentNode.Descendants("div").Where(d => d.GetAttributeValue("class", "").Contains("filmSessions")).ToList();
-
-
-            //     //get date and times out
-            //     //split up multiple cinema results
-            //     //format to be readable
-
-            //     foreach (var section in timeSections)
-            //     {
-            //         builder.AppendLine(section.InnerHtml);
-            //     }
-            //     break;
-            // }
-
-            // return builder.ToString();
-
+            return toReturn;
         }
 
 
