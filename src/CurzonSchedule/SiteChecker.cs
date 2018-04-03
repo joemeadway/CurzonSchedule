@@ -7,8 +7,6 @@ using HtmlAgilityPack;
 namespace CurzonSchedule{
     public class SiteChecker
     {
-        private IEnumerable<string> _allFilms;
-
         public IEnumerable<Showing> GetShowings()
         {
             var toReturn = new List<Showing>();
@@ -19,10 +17,9 @@ namespace CurzonSchedule{
             
             foreach (var showing in initialShowings)
             {
-                var cinemaFilmLinks = GetCinemasLinks(showing.At.Number, showing.What.Slug);
+                var cinemaFilmDivs = GetCinemasLinks(showing.At.Number, showing.What.Slug);
                 
-                //Send film links to showing builder, return times
-                //toReturn.AddRange(showBuidler.From
+                toReturn.AddRange(showBuidler.FromScheduleDivs(cinemaFilmDivs);
                 
             }
 
@@ -38,21 +35,30 @@ namespace CurzonSchedule{
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(site);
 
-            _allFilms = doc.DocumentNode.Descendants("a")
+            var links = doc.DocumentNode.Descendants("a")
                                     .Select(a => a.GetAttributeValue("href", null))
                                     .Where(u => !String.IsNullOrEmpty(u));
 
-            return _allFilms
+            return links
                 .Where(l => l.Contains("film-info") && l.Contains("cinema") )
                 .Select(l => l.Substring(l.LastIndexOf("/") + 1, l.Length - (l.LastIndexOf("/") + 1)))
                 .Distinct().ToList();
         }
 
-        public IEnumerable<string> GetCinemasLinks(string cinema, string filmSlug)
+        public IEnumerable<HtmlNode> GetCinemasLinks(string cinema, string filmSlug)
         {
             List<string> toReturn = new List<string>();
 
 
+            StringBuilder builder = new StringBuilder();
+
+            var site = @"https://curzoncinemas.com/cinema/"+cinema+"/film-info/"+filmSlug;
+            HtmlWeb web = new HtmlWeb();
+            var doc = web.Load(site);
+
+            var sessionNodes = doc.DocumentNode.Descendants("div")
+                                .Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("filmSessions"))
+                                .ToList();
 
             return toReturn;
         }

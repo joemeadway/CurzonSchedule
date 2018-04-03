@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using HtmlAgilityPack;
 
 namespace CurzonSchedule{
 
@@ -56,6 +57,15 @@ namespace CurzonSchedule{
             return toReturn;
         }
 
+        public IEnumerable<Showing> FromScheduleDivs(IEnumerable<HtmlNode> inputDivs)
+        {
+            var toReturn = new List<Showing>();
+
+            foreach (var node in inputDivs)
+            {
+                node.SelectSingleNode("//div")
+            }
+        }
     }
 
 }
