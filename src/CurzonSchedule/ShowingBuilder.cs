@@ -57,14 +57,16 @@ namespace CurzonSchedule{
             return toReturn;
         }
 
-        public IEnumerable<Showing> FromScheduleDivs(IEnumerable<HtmlNode> inputDivs)
+        public IEnumerable<Showing> FromScheduleDivs(Showing sourceShowing, IEnumerable<HtmlNode> inputDivs)
         {
             var toReturn = new List<Showing>();
 
             foreach (var node in inputDivs)
             {
-                node.SelectSingleNode("//div")
+                //node.SelectSingleNode("//div")
             }
+
+            return toReturn;
         }
     }
 
