@@ -7,9 +7,15 @@ using HtmlAgilityPack;
 namespace CurzonSchedule{
     public class SiteChecker
     {
-        private readonly ISiteReader _siteReader = new SiteReader();
-        private readonly ISiteParser _siteParser = new SiteParser();
-        
+        private readonly ISiteReader _siteReader;
+        private readonly ISiteParser _siteParser;
+
+        public SiteChecker(ISiteReader reader = null, ISiteParser parser = null)
+        {
+            _siteReader = reader ?? new SiteReader();
+            _siteParser = parser ?? new SiteParser();
+        }
+
         public IEnumerable<Showing> GetShowings()
         {
             var toReturn = new List<Showing>();
@@ -27,6 +33,7 @@ namespace CurzonSchedule{
                     showing.What.Name = _siteParser.GetFilmTitle(filmPage);
                 }
                 var filmSessions = _siteParser.GetFilmPageSessions(filmPage);
+                
                 toReturn.AddRange(showBuidler.FromScheduleDivs(showing, filmSessions));
             }
 

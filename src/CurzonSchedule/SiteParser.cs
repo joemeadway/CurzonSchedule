@@ -23,10 +23,9 @@ namespace CurzonSchedule
 
             return links
                 .Where(l => l.Contains("film-info") && l.Contains("cinema"))
-                .Select(l => l.Substring(l.LastIndexOf("/") + 1, l.Length - (l.LastIndexOf("/") + 1)))
+                .Select(l => l.Substring(l.IndexOf("/") + 1, l.Length - (l.LastIndexOf("/") + 1)))
                 .Distinct().ToList();
         }
-
 
         public IEnumerable<HtmlNode> GetFilmPageSessions(HtmlDocument page)
         {
@@ -37,9 +36,12 @@ namespace CurzonSchedule
 
         public string GetFilmTitle(HtmlDocument page)
         {
-            return page.DocumentNode.Descendants("h1")
+            var element = page.DocumentNode.Descendants("h1")
                             .Where(h => h.Attributes.Contains("class") && h.Attributes["class"].Value.Contains("filmPageTitle"))
-                            .First().InnerText;
+                            .FirstOrDefault();
+            if (element == null) return "";
+
+            return element.InnerText;
         }
     }
 }

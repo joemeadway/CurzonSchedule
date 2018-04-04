@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
@@ -63,7 +64,17 @@ namespace CurzonSchedule{
 
             foreach (var node in inputDivs)
             {
-                //node.SelectSingleNode("//div")
+                DateTime date = Convert.ToDateTime(node.Descendants("div")
+                    .Where(d => d.Attributes.Contains("class") && d.Attributes["class"].Value.Contains("filmItemDate"))
+                    .FirstOrDefault().Attributes["data-dateformat"].Value);
+
+                foreach (var sched in node.Descendants("li"))
+                {
+                    var time = DateTime.Parse(sched.Descendants("a").First().InnerText);
+                    var thisTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0);
+                    sourceShowing.When = thisTime;
+                    toReturn.Add(sourceShowing);
+                }
             }
 
             return toReturn;

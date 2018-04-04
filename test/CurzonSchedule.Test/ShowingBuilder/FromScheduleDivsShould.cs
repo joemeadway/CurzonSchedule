@@ -8,10 +8,33 @@ using HtmlAgilityPack;
 
 namespace CurzonSchedule.Test.ShowingBuilder
 {
-    public class FromShowingDivsShould
+    public class FromScheduleDivsShould
     {
         [Fact]
         public void ReturnEmptyList_GivenEmptyInput()
+        {
+            var sut = new sut.ShowingBuilder();
+
+            var sourceShowing = new Showing
+            {
+                At = new Cinema
+                {
+                    Number = "123"
+                },
+                What = new Film
+                {
+                    Slug = "new-film"
+                }
+            };
+
+            var result = sut.FromScheduleDivs(sourceShowing, new List<HtmlNode> {  });
+
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ReturnSingleShowing_GivenSingleDivWithSingleDateAndTimeInput()
         {
             var sut = new sut.ShowingBuilder();
 
@@ -35,17 +58,12 @@ namespace CurzonSchedule.Test.ShowingBuilder
             parentFilmSession.AddClass("filmSessions");
             parentFilmSession.SetAttributeValue("data-filmpage-sessions", "data-filmpage-sessions");
 
-            parentFilmSession.InnerHtml = @"<div class=""filmItemDate"" data-dateformat=""2018-04-07"">Saturday 7 April 2018</div><ul class=""filmExp dn""></ul><ul class=""filmTimes filmInfo""><li><a href=""/booking/240/6184758"" class=""filmTimeItem""data-filmpage-exp="">6:15 PM</a></li><li><a href=""/booking/240/6175341"" class=""filmTimeItem""data-filmpage-exp="">8:30 PM</a></li></ul>";
+            parentFilmSession.InnerHtml = @"<div class=""filmItemDate"" data-dateformat=""2018-04-07"">Saturday 7 April 2018</div><ul class=""filmExp dn""></ul><ul class=""filmTimes filmInfo""><li><a href=""/booking/240/6184758"" class=""filmTimeItem""data-filmpage-exp="">6:15 PM</a></li></ul>";
 
-            //var filmItemDate = new HtmlNode(HtmlNodeType.Element, parentDoc, 0);
-            //filmItemDate.Name = "div";
-            //filmItemDate.SetAttributeValue("data-dateformat", "2018-04-07");
-            //filmItemDate.S
-
+            
             var result = sut.FromScheduleDivs(sourceShowing, new List<HtmlNode> { parentFilmSession });
 
-            Assert.NotNull(result);
-            Assert.Empty(result);
+            Assert.Single(result);
         }
 
 
@@ -64,7 +82,7 @@ namespace CurzonSchedule.Test.ShowingBuilder
 
         //     </div>
 
-        
+
 
     }
 }
