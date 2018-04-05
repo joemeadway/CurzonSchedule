@@ -39,6 +39,5 @@ namespace CurzonSchedule{
 
             return toReturn;
         }
-
     }
 }
