@@ -37,7 +37,7 @@ namespace CurzonSchedule{
                 toReturn.AddRange(showBuidler.FromScheduleDivs(showing, filmSessions));
             }
 
-            return new List<Showing>();
+            return toReturn;
         }
 
     }

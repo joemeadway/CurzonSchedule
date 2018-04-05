@@ -8,5 +8,9 @@ namespace CurzonSchedule
         public Film What { get; set; }
         public DateTime When { get; set; }
 
+        public Showing Copy()
+        {
+            return (Showing)this.MemberwiseClone();
+        }
     }
 }

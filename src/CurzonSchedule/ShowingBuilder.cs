@@ -72,8 +72,9 @@ namespace CurzonSchedule{
                 {
                     var time = DateTime.Parse(sched.Descendants("a").First().InnerText);
                     var thisTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0);
-                    sourceShowing.When = thisTime;
-                    toReturn.Add(sourceShowing);
+                    var newShowing = sourceShowing.Copy();
+                    newShowing.When = thisTime;
+                    toReturn.Add(newShowing);
                 }
             }
 
