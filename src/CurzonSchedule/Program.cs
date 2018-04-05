@@ -17,13 +17,17 @@ namespace CurzonSchedule
                 var checker = new SiteChecker();
                 var result = checker.GetShowings();
 
-                Console.WriteLine(result);
+                var formatter = new ResultsFormatter();
+                var toPrint = formatter.GetResultsTable(result);
+
+                Console.WriteLine(toPrint);
 
                 var subject = optionSubject.HasValue()
                     ? optionSubject.Value()
                     : "world";
 
                 Console.WriteLine($"Hello {subject}!");
+                Console.ReadLine();
                 return 0;
             });
 

@@ -38,7 +38,7 @@ namespace CurzonSchedule{
                     films.Add(newFilm);
                 }
 
-                var cinemaNumber = item.Substring((item.IndexOf('/')+1),(item.IndexOf('/', item.IndexOf('/')+1)-(item.IndexOf('/')+1)));
+                var cinemaNumber = GetCinemaNumber(item);
                 if(cinemas.Any(c => c.Number == cinemaNumber))
                 {
                     showing.At = cinemas.First(c => c.Number == cinemaNumber);
@@ -58,6 +58,16 @@ namespace CurzonSchedule{
             return toReturn;
         }
 
+        public string GetCinemaNumber(string item)
+        {
+            item = item.Replace("/cinema/", "");
+            if (item.StartsWith('/'))
+            {
+                item = item.TrimStart('/');
+            }
+            return item.Substring(0, item.IndexOf('/'));
+        }
+
         public IEnumerable<Showing> FromScheduleDivs(Showing sourceShowing, IEnumerable<HtmlNode> inputDivs)
         {
             var toReturn = new List<Showing>();
@@ -70,7 +80,9 @@ namespace CurzonSchedule{
 
                 foreach (var sched in node.Descendants("li"))
                 {
-                    var time = DateTime.Parse(sched.Descendants("a").First().InnerText);
+                    var timeLinks = sched.Descendants("a");
+                    if (timeLinks.Count() == 0) break;
+                    var time = DateTime.Parse(timeLinks.First().InnerText);
                     var thisTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, 0);
                     var newShowing = sourceShowing.Copy();
                     newShowing.When = thisTime;

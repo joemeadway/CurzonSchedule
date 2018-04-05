@@ -84,5 +84,83 @@ namespace CurzonSchedule.Test.SiteParser
 
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void ReturnsSingleLink_WhenGivenSingleLink()
+        {
+            var input = new List<string>
+            {
+                "/cinema/246/film-info/isle-of-dogs"
+            };
+            var parser = new sut.SiteParser();
+
+            var result = parser.FilterLinks(input);
+
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void ReturnsCompleteLink_WhenGivenSingleLink()
+        {
+            var input = new List<string>
+            {
+                "/cinema/246/film-info/isle-of-dogs"
+            };
+            var parser = new sut.SiteParser();
+
+            var result = parser.FilterLinks(input);
+
+            Assert.Equal("/cinema/246/film-info/isle-of-dogs", result.ElementAt(0));
+        }
+
+
+        [Fact]
+        public void ReturnsCompleteLink_WhenGivenOneCorrectOneIgnoreLink()
+        {
+            var input = new List<string>
+            {
+                "/cinema/246/film-info/isle-of-dogs",
+                "https://www.curzonartificialeye.com/"
+            };
+            var parser = new sut.SiteParser();
+
+            var result = parser.FilterLinks(input);
+
+            Assert.Equal("/cinema/246/film-info/isle-of-dogs", result.ElementAt(0));
+        }
+
+        [Fact]
+        public void ReturnsCompleteSingleLink_WhenGivenOneCorrectIgnorableFilmInfoLink()
+        {
+            var input = new List<string>
+            {
+                "/cinema/246/film-info/isle-of-dogs",
+                "https://www.curzonartificialeye.com/",
+                "/film-info/isle-of-dogs"
+            };
+            var parser = new sut.SiteParser();
+
+            var result = parser.FilterLinks(input);
+
+            Assert.Equal("/cinema/246/film-info/isle-of-dogs", result.ElementAt(0));
+        }
+
+
+        [Fact]
+        public void ReturnsCompleteSingleLink_WhenGivenOneCorrectIgnorableCinemaLink()
+        {
+            var input = new List<string>
+            {
+                "/cinema/246/film-info/isle-of-dogs",
+                "https://www.curzonartificialeye.com/",
+                "/film-info/isle-of-dogs",
+                "/cinema/246/"
+            };
+            var parser = new sut.SiteParser();
+
+            var result = parser.FilterLinks(input);
+
+            Assert.Equal("/cinema/246/film-info/isle-of-dogs", result.ElementAt(0));
+        }
     }
 }

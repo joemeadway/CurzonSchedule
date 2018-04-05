@@ -21,9 +21,14 @@ namespace CurzonSchedule
                             .Select(a => a.GetAttributeValue("href", null))
                             .Where(u => !String.IsNullOrEmpty(u));
 
+            return FilterLinks(links);
+        }
+
+        public IEnumerable<string> FilterLinks(IEnumerable<string> links)
+        {
             return links
                 .Where(l => l.Contains("film-info") && l.Contains("cinema"))
-                .Select(l => l.Substring(l.IndexOf("/") + 1, l.Length - (l.LastIndexOf("/") + 1)))
+                .Select(l => l.Substring(l.IndexOf("/"), l.Length))
                 .Distinct().ToList();
         }
 
