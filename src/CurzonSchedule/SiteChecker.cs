@@ -32,6 +32,10 @@ namespace CurzonSchedule{
                 {
                     showing.What.Name = _siteParser.GetFilmTitle(filmPage);
                 }
+                if (string.IsNullOrEmpty(showing.At.Name))
+                {
+                    showing.At.Name = _siteParser.GetCinemaName(filmPage);
+                }
                 var filmSessions = _siteParser.GetFilmPageSessions(filmPage);
                 
                 toReturn.AddRange(showBuidler.FromScheduleDivs(showing, filmSessions));
