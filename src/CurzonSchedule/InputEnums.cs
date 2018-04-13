@@ -10,4 +10,11 @@ namespace CurzonSchedule
         Date = 1,
         Film = 2
     }
+
+    public enum Period
+    {
+        All = 0,
+        Today = 1,
+        Tomorrow = 2
+    }
 }
