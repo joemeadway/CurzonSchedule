@@ -1,10 +1,14 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using McMaster.Extensions.CommandLineUtils;
+using System.IO;
 
 namespace CurzonSchedule
 {
     class Program
     {
+        public static IConfiguration Configuration { get; set; }
+
         static int Main(string[] args)
         {
             var app = new CommandLineApplication();
@@ -14,8 +18,24 @@ namespace CurzonSchedule
             var sortOrder = app.Option("-s|--sort <ORDER>", "Sort order: by <c>inema, <f>ilm, <d>ate. Defaults to date.", CommandOptionType.SingleValue);
             var period = app.Option("-p|--period <PERIOD>", "Period to fetch: <t>oday, to<m>orrow <a>ll. Defaults to all.", CommandOptionType.SingleValue);
 
+            if(!File.Exists(Directory.GetCurrentDirectory() + "//appsettings.json"))
+            {
+                string filePath = Directory.GetCurrentDirectory() + "//appsettings.json";
+                using (StreamWriter sw = new StreamWriter(filePath, true))
+                {
+                    sw.Write("{}");
+                }
+            }
+            var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
+
             app.OnExecute(() =>
             {
+                Configuration["Hello"] = "World";
+                
 
                 SortOrder sort = SortOrder.Date;
                 if (sortOrder.HasValue())
