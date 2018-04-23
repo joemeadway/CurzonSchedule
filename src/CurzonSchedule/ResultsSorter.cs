@@ -15,13 +15,13 @@ namespace CurzonSchedule
             {
                 case SortOrder.Cinema:
                     input = SortByCinema(input);
-                    return input;
+                    break;
                 case SortOrder.Date:
                     input = SortByDate(input);
-                    return input;
+                    break;
                 case SortOrder.Film:
                     input = SortByFilm(input);
-                    return input;
+                    break;
                 default:
                     break;
             }
@@ -43,6 +43,24 @@ namespace CurzonSchedule
         private static IEnumerable<Showing> SortByCinema(IEnumerable<Showing> input)
         {
             input = input.OrderBy(s => s, new ShowingCinemaComparer()).ToList();
+            return input;
+        }
+
+        public static IEnumerable<Showing> JustThisPeriod(this IEnumerable<Showing> input, Period periodToFetch)
+        {
+            switch (periodToFetch)
+            {
+                case Period.All:
+                    break;
+                case Period.Today:
+                    input = input.Where(i => i.When.Day == DateTime.Now.Day).ToList();
+                    break;
+                case Period.Tomorrow:
+                    input = input.Where(i => i.When.Day == DateTime.Now.AddDays(1).Day).ToList();
+                    break;
+                default:
+                    break;
+            }
             return input;
         }
     }
