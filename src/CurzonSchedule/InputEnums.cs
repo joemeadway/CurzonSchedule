@@ -17,4 +17,10 @@ namespace CurzonSchedule
         Today = 1,
         Tomorrow = 2
     }
+
+    public enum FetchScope
+    {
+        All = 0,
+        Mine = 1
+    }
 }

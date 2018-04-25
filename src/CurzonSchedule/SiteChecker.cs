@@ -16,7 +16,7 @@ namespace CurzonSchedule{
             _siteParser = parser ?? new SiteParser();
         }
 
-        public IEnumerable<Showing> GetShowings()
+        public IEnumerable<Showing> GetShowings(string[] cinemasToCheck)
         {
             var toReturn = new List<Showing>();
             var initialPage = _siteReader.GetInitialPage();
@@ -24,6 +24,12 @@ namespace CurzonSchedule{
 
             var showBuidler = new ShowingBuilder();
             var initialShowings = showBuidler.FromInitialUrlList(initialLinks);
+
+
+            if(cinemasToCheck != null && cinemasToCheck.Length != 0)
+            {
+                initialShowings = initialShowings.Where(s => cinemasToCheck.Contains(s.At.Number)).ToList();
+            }
 
             foreach (var showing in initialShowings)
             {

@@ -1,41 +1,44 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
 using McMaster.Extensions.CommandLineUtils;
-using System.IO;
 
 namespace CurzonSchedule
 {
     class Program
     {
-        public static IConfiguration Configuration { get; set; }
-
         static int Main(string[] args)
         {
             var app = new CommandLineApplication();
 
             app.HelpOption();
-            var optionSubject = app.Option("-f|--fetch <AMOUNT>", "Which cinemas to check - ALL or MINE. MINE checks for local settings json file; defaults to ALL.", CommandOptionType.SingleValue);
+            var fetchScope = app.Option("-f|--fetch <AMOUNT>", "Which cinemas to check - ALL or MINE. MINE checks for local settings json file; defaults to ALL.", CommandOptionType.SingleValue);
             var sortOrder = app.Option("-s|--sort <ORDER>", "Sort order: by <c>inema, <f>ilm, <d>ate. Defaults to date.", CommandOptionType.SingleValue);
             var period = app.Option("-p|--period <PERIOD>", "Period to fetch: <t>oday, to<m>orrow <a>ll. Defaults to all.", CommandOptionType.SingleValue);
-
-            if(!File.Exists(Directory.GetCurrentDirectory() + "//appsettings.json"))
-            {
-                string filePath = Directory.GetCurrentDirectory() + "//appsettings.json";
-                using (StreamWriter sw = new StreamWriter(filePath, true))
-                {
-                    sw.Write("{}");
-                }
-            }
-            var builder = new ConfigurationBuilder()
-                                .SetBasePath(Directory.GetCurrentDirectory())
-                                .AddJsonFile("appsettings.json");
-
-            Configuration = builder.Build();
-
+            
             app.OnExecute(() =>
             {
-                Configuration["Hello"] = "World";
-                
+
+
+                FetchScope scope = FetchScope.All;
+                if (fetchScope.HasValue())
+                {
+                    switch (fetchScope.Value().ToUpperInvariant())
+                    {
+                        case "MINE":
+                            scope = FetchScope.Mine;
+                            break;
+                        case "ALL":
+                            break;
+                        default:
+                            Console.WriteLine($"Fetch value {fetchScope.Value()} couldn't be parsed - fetching all");
+                            scope = FetchScope.All;
+                            break;
+                    }
+                }
+                string[] cinemasToCheck = null;
+                if(scope == FetchScope.Mine)
+                {
+                    cinemasToCheck = new SettingsReader().GetCinemas();
+                }
 
                 SortOrder sort = SortOrder.Date;
                 if (sortOrder.HasValue())
@@ -75,7 +78,7 @@ namespace CurzonSchedule
                     }
                 }
                 var checker = new SiteChecker();
-                var result = checker.GetShowings();
+                var result = checker.GetShowings(cinemasToCheck);
 
                 result = result.SortThisBy(sort);
                 result = result.JustThisPeriod(periodToFetch);
@@ -84,12 +87,7 @@ namespace CurzonSchedule
                 var toPrint = formatter.GetResultsTable(result);
 
                 Console.WriteLine(toPrint);
-
-                var subject = optionSubject.HasValue()
-                    ? optionSubject.Value()
-                    : "world";
-
-                Console.WriteLine($"Hello {subject}!");
+                
                 Console.ReadLine();
                 return 0;
             });
