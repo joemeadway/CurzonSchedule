@@ -2,7 +2,7 @@
 using McMaster.Extensions.CommandLineUtils;
 
 namespace CurzonSchedule
-{
+{   
     class Program
     {
         static int Main(string[] args)
@@ -13,10 +13,13 @@ namespace CurzonSchedule
             var fetchScope = app.Option("-f|--fetch <AMOUNT>", "Which cinemas to check - ALL or MINE. MINE checks for local settings json file; defaults to ALL.", CommandOptionType.SingleValue);
             var sortOrder = app.Option("-s|--sort <ORDER>", "Sort order: by <c>inema, <f>ilm, <d>ate. Defaults to date.", CommandOptionType.SingleValue);
             var period = app.Option("-p|--period <PERIOD>", "Period to fetch: <t>oday, to<m>orrow <a>ll. Defaults to all.", CommandOptionType.SingleValue);
+
+            var argument = app.Argument("cinemas", "List the cinemas, manage favourites");
+            var fetch = app.Argument("fetch", "Get film schedules");
             
             app.OnExecute(() =>
             {
-
+                var blah = argument;
 
                 FetchScope scope = FetchScope.All;
                 if (fetchScope.HasValue())
