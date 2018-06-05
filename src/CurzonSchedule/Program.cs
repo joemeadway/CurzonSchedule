@@ -3,7 +3,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace CurzonSchedule
 {   
-    class Program
+    public class Program
     {
         static int Main(string[] args)
         {

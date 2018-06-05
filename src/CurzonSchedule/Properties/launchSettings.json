@@ -2,7 +2,7 @@
   "profiles": {
     "CurzonSchedule": {
       "commandName": "Project",
-      "commandLineArgs": "-s d -p m -f MINE"
+      "commandLineArgs": "-s d -p m"
     }
   }
 }
