@@ -9,7 +9,7 @@ namespace CurzonSchedule.Commands
     [Command(Name = "cinemas", Description = "Manage favourite cinemas"),
         Subcommand("all", typeof(All))]
     [HelpOption("--help")]
-    class Docker
+    class Cinema
     {
         private int OnExecute(CommandLineApplication app, IConsole console)
         {
