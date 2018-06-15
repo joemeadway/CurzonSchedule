@@ -47,7 +47,7 @@ namespace CurzonSchedule
                             .FirstOrDefault();
             if (element == null) return "";
 
-            return element.InnerText;
+            return HtmlEntity.DeEntitize(element.InnerText);
         }
 
         public string GetCinemaName(HtmlDocument filmPage)

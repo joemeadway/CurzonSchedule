@@ -60,11 +60,12 @@ namespace CurzonSchedule{
 
         public string GetCinemaNumber(string item)
         {
-            item = item.Replace("/cinema/", "");
             if (item.StartsWith('/'))
             {
                 item = item.TrimStart('/');
             }
+            item = item.Replace("cinema/", "");
+
             return item.Substring(0, item.IndexOf('/'));
         }
 

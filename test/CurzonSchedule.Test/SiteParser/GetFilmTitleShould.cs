@@ -38,5 +38,20 @@ namespace CurzonSchedule.Test.SiteParser
 
             Assert.Equal("", result);
         }
+
+        [Fact]
+        public void ReturnDecodedString_WhenTitleHasEncodedCharacter()
+        {
+            var parser = new sut.SiteParser();
+
+            var parentDoc = new HtmlDocument();
+            var titleElement = new HtmlNode(HtmlNodeType.Text, parentDoc, 0);
+            titleElement.InnerHtml = @"<h1 class=""h2 filmPageTitle"">L&#39;Amant Double</h1>";
+            parentDoc.DocumentNode.AppendChild(titleElement);
+
+            var result = parser.GetFilmTitle(parentDoc);
+
+            Assert.Equal("L'Amant Double", result);
+        }
     }
 }

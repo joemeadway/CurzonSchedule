@@ -1,6 +1,7 @@
 ﻿using System;
 using McMaster.Extensions.CommandLineUtils;
 using System.ComponentModel.DataAnnotations;
+using CurzonSchedule.Commands;
 
 namespace CurzonSchedule
 {
@@ -65,6 +66,21 @@ namespace CurzonSchedule
                         Console.WriteLine($"Removing cinema {number.Value}");
                     });
                 });
+            });
+
+            app.Command("run", runCmd =>
+            {
+                runCmd.Description = "Get cinema times";
+                var fetchScope = runCmd.Option("-f|--fetch <AMOUNT>", "Which cinemas to check - ALL or MINE. MINE checks for local settings json file; defaults to ALL.", CommandOptionType.SingleValue);
+                var sortOrder = runCmd.Option("-s|--sort <ORDER>", "Sort order: by <c>inema, <f>ilm, <d>ate. Defaults to date.", CommandOptionType.SingleValue);
+                var period = runCmd.Option("-p|--period <PERIOD>", "Period to fetch: <t>oday, to<m>orrow <a>ll. Defaults to all.", CommandOptionType.SingleValue);
+                runCmd.OnExecute(() =>
+                {
+                    var result = new Run().Execute(fetchScope, sortOrder, period);
+                    Console.WriteLine(result);
+                    return 1;
+                });
+                
             });
 
             app.OnExecute(() =>
