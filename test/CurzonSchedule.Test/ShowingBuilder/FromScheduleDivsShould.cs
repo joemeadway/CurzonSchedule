@@ -5,6 +5,7 @@ using sut = CurzonSchedule;
 using Xunit;
 using System.Linq;
 using HtmlAgilityPack;
+using CurzonSchedule.Models;
 
 namespace CurzonSchedule.Test.ShowingBuilder
 {
@@ -463,8 +464,8 @@ namespace CurzonSchedule.Test.ShowingBuilder
             var result = sut.FromScheduleDivs(sourceShowing, new List<HtmlNode> { parentFilmSession });
 
 
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 7, 9, 15, 00)));
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 7, 18, 15, 00)));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 7, 9, 15, 00));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 7, 18, 15, 00));
         }
 
         [Fact]
@@ -693,10 +694,10 @@ namespace CurzonSchedule.Test.ShowingBuilder
 
             var result = sut.FromScheduleDivs(sourceShowing, new List<HtmlNode> { day1, day2 });
 
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 8, 5, 25, 00)));
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 8, 16, 25, 00)));
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 7, 9, 15, 00)));
-            Assert.True(result.Any(s => s.When == new DateTime(2018, 4, 7, 18, 15, 00)));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 8, 5, 25, 00));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 8, 16, 25, 00));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 7, 9, 15, 00));
+            Assert.Contains(result, s => s.When == new DateTime(2018, 4, 7, 18, 15, 00));
         }
 
     }

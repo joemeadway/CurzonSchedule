@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CurzonSchedule{
+namespace CurzonSchedule.Models{
     public class Film 
     {
         public string Slug { get; set; }

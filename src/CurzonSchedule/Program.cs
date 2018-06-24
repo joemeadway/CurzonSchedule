@@ -29,7 +29,9 @@ namespace CurzonSchedule
                     listCmd.Description = "List all the Curzon Cinemas";
                     listCmd.OnExecute(() =>
                     {
-                        Console.WriteLine($"Setting config hello");
+                        var result = new Cinemas().List();
+                        Console.WriteLine(result);
+                        return 1;
                     });
                 });
 
@@ -47,7 +49,6 @@ namespace CurzonSchedule
                 {
                     addCmd.Description = "Add a cinema to your favourites";
                     var number = addCmd.Argument("Number", "The number of the cinema to save", false);
-                    //var json = allCmd.Option("--json", "Json output", CommandOptionType.SingleValue);
                     addCmd.OnExecute(() =>
                     {
 

@@ -87,8 +87,8 @@ namespace CurzonSchedule.Test.ShowingBuilder
 
             var result = sut.FromInitialUrlList(input);
 
-            Assert.True(result.Any(f => f.At.Number == "123"));
-            Assert.True(result.Any(f => f.At.Number == "456"));
+            Assert.Contains(result, f => f.At.Number == "123");
+            Assert.Contains(result, f => f.At.Number == "456");
         }
 
         [Fact]
@@ -103,8 +103,8 @@ namespace CurzonSchedule.Test.ShowingBuilder
 
             var result = sut.FromInitialUrlList(input);
 
-            Assert.True(result.Any(f => f.What.Slug == "new-film"));
-            Assert.True(result.Any(f => f.What.Slug == "another-new-film"));
+            Assert.Contains(result, f => f.What.Slug == "new-film");
+            Assert.Contains(result, f => f.What.Slug == "another-new-film");
         }
 
         [Fact]

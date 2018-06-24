@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HtmlAgilityPack;
+using CurzonSchedule.Models;
 
 namespace CurzonSchedule{
     public class SiteChecker
@@ -14,6 +15,15 @@ namespace CurzonSchedule{
         {
             _siteReader = reader ?? new SiteReader();
             _siteParser = parser ?? new SiteParser();
+        }
+
+        public string GetCinemas()
+        {
+            var initialPage = _siteReader.GetInitialPage();
+            //parser gets links
+
+
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Showing> GetShowings(string[] cinemasToCheck)

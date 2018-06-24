@@ -2,14 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>curzon-schedule</AssemblyName>
+    <Description>A tool to fetch the upcoming showing times at the Curzon cinema chain</Description>
+    <PackageId>curzon-schedule</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ConsoleTables" Version="2.2.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.4" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
   </ItemGroup>
 
 </Project>

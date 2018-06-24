@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CurzonSchedule
+namespace CurzonSchedule.Models
 {
     public class Showing 
     {
