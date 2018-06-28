@@ -20,5 +20,19 @@ namespace CurzonSchedule
 
             return table;
         }
+
+        public ConsoleTable GetResultsTable(IEnumerable<Cinema> cinemas)
+        {
+
+            var table = new ConsoleTable(new ConsoleTableOptions());
+
+            table.AddColumn(new List<string> { "Number", "Name" });
+            foreach (var c in cinemas)
+            {
+                table.AddRow(c.Number, c.Name);
+            }
+
+            return table;
+        }
     }
 }

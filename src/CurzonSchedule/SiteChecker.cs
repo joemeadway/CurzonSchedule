@@ -17,13 +17,13 @@ namespace CurzonSchedule{
             _siteParser = parser ?? new SiteParser();
         }
 
-        public string GetCinemas()
+        public IEnumerable<Cinema> GetCinemas()
         {
             var initialPage = _siteReader.GetInitialPage();
             //parser gets links
-
-
-            throw new NotImplementedException();
+            var initialLinks = _siteParser.GetAllCinemas(initialPage);
+            var cinemaBuilder = new CinemaBuilder();
+            return cinemaBuilder.FromInitialLinks(initialLinks);
         }
 
         public IEnumerable<Showing> GetShowings(string[] cinemasToCheck)

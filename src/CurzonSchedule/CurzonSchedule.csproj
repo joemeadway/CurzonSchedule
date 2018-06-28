@@ -8,6 +8,7 @@
     <AssemblyName>curzon-schedule</AssemblyName>
     <Description>A tool to fetch the upcoming showing times at the Curzon cinema chain</Description>
     <PackageId>curzon-schedule</PackageId>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

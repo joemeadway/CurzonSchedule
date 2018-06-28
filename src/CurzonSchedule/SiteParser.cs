@@ -12,6 +12,7 @@ namespace CurzonSchedule
         string GetFilmTitle(HtmlDocument page);
         IEnumerable<string> GetInitialLinks(HtmlDocument page);
         string GetCinemaName(HtmlDocument filmPage);
+        IEnumerable<HtmlNode> GetAllCinemas(HtmlDocument initialPage);
     }
 
     public class SiteParser : ISiteParser
@@ -57,6 +58,12 @@ namespace CurzonSchedule
             if (element == null) return "";
 
             return element.Attributes["data-cinema-name"].Value;
+        }
+
+        public IEnumerable<HtmlNode> GetAllCinemas(HtmlDocument initialPage)
+        {
+            return initialPage.DocumentNode.Descendants("a")
+                            .Where(h => h.Attributes.Contains("data-film-list-item-cinema-item")).ToList();
         }
     }
 }

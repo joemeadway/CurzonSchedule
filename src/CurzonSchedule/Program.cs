@@ -24,24 +24,26 @@ namespace CurzonSchedule
                     return 1;
                 });
 
-                cinemasCmd.Command("list", listCmd =>
+                cinemasCmd.Command("all", listCmd =>
                 {
                     listCmd.Description = "List all the Curzon Cinemas";
                     listCmd.OnExecute(() =>
                     {
-                        var result = new Cinemas().List();
+                        var result = new Cinemas().All();
                         Console.WriteLine(result);
                         return 1;
                     });
                 });
 
-                cinemasCmd.Command("all", allCmd =>
+                cinemasCmd.Command("mine", allCmd =>
                 {
-                    allCmd.Description = "List all your saved cinemas";
+                    allCmd.Description = "List your saved cinemas";
                     var json = allCmd.Option("--json", "Json output", CommandOptionType.NoValue);
                     allCmd.OnExecute(() =>
                     {
-                        Console.WriteLine("Listing your saved cinemas");
+                        var result = new Cinemas().Mine();
+                        Console.WriteLine(result);
+                        return 1;
                     });
                 });
 

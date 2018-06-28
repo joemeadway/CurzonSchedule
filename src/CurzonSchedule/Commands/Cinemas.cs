@@ -8,14 +8,25 @@ namespace CurzonSchedule.Commands
 {
     public class Cinemas
     {
+        private ResultsFormatter _formatter;
 
-        public string List()
+        public Cinemas()
+        {
+            _formatter = new ResultsFormatter();
+        }
+
+        public string All()
         {
 
             var checker = new SiteChecker();
-            var result = checker.GetCinemas();
-            
-            return result;
+            var cinemas = checker.GetCinemas();
+
+            return _formatter.GetResultsTable(cinemas).ToString();
+        }
+
+        public string Mine()
+        {
+            throw new NotImplementedException();
         }
     }
 }
